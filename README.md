@@ -39,15 +39,16 @@ app.get('/', (req, res, next) => {
 The below methods are attached to the response object. The basic express response is still available.
 
 ```js
-    res.ok(data);                       // 200, OK: Request was successful.
-    res.okNewResource(data);            // 201, CREATED: Request successfully created new resource.
-    res.okNoContent();                  // 204, OK NO CONTENT: Request was successfull and no content returned.
-    res.badRequest(errors);             // 400, BAD REQUEST: Bad Request (invalid input)
-    res.unauthorized();                 // 401, UNAUTHORIZED ACCESS: Unathorized Access
-    res.forbidden();                    // 403, FORBIDDEN: Forbidden access
-    res.notFound();                     // 404, NOT FOUND: Not found
-    res.unprocessableEntity(errors);    // 422, UNPROCESSABLE ENTITY: Data supplied not processable.
-    res.internalServerError()           // 500, INTERNAL SERVER ERROR: Error occured on server.
+    res.ok(data);                  // 200, OK: Request was successful.
+    res.okNewResource(data);       // 201, CREATED: Request successfully created new resource.
+    res.okNoContent(data);         // 204, OK NO CONTENT: Request was successfull and no content returned.
+    res.badRequest(data);          // 400, BAD REQUEST: Bad Request (invalid input)
+    res.unauthorized(data);        // 401, UNAUTHORIZED ACCESS: Unathorized Access
+    res.forbidden(data);           // 403, FORBIDDEN: Forbidden access
+    res.notFound(data);            // 404, NOT FOUND: Not found
+    res.unprocessableEntity(data); // 422, UNPROCESSABLE ENTITY: Data supplied not processable.
+    res.internalServerError(data); // 500, INTERNAL SERVER ERROR: Error occured on server.
+    res.api(statusCode, data, infoMessage, httpMessage); // Custom message
 ```
 
 ## Respons Format

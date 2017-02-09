@@ -1,6 +1,6 @@
 {
   "name": "express-restful-helper",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "Express middleware to attach some common responses to the response object as helper-methods.",
   "author": "Tommy Dronkers <dronkers86@gmail.com>",
   "contributors": [{

@@ -29,51 +29,70 @@ module.exports = function(options) {
         /**
          * Request was OK. No content returned.
          **/
-        res.okNoContent = function() {
-            _generateResponse(res, Status.OK_NO_CONTENT, null, options);
+        res.okNoContent = function(data) {
+            _generateResponse(res, Status.OK_NO_CONTENT, data, options);
         };
 
         /**
          * Request was NOT ok. Or the content could not be served.
          **/
-        res.badRequest = function(errors) {
-            _generateResponse(res, Status.BAD_REQUEST, errors, options);
+        res.badRequest = function(data) {
+            _generateResponse(res, Status.BAD_REQUEST, data, options);
         };
 
         /**
          * Unauthorized access. (e.g. login fail or requesting without login)
          **/
-        res.unauthorized = function() {
-            _generateResponse(res, Status.UNATUHORIZED, null, options);
+        res.unauthorized = function(data) {
+            _generateResponse(res, Status.UNATUHORIZED, data, options);
         };
 
         /**
          * Forbidden (e.g. request without correct privelegies)
          **/
-        res.forbidden = function() {
-            _generateResponse(res, Status.FORBIDDEN, null, options);
+        res.forbidden = function(data) {
+            _generateResponse(res, Status.FORBIDDEN, data, options);
         };
 
         /**
          * Resource was not found. (error is not required)
          **/
-        res.notFound = function() {
-            _generateResponse(res, Status.NOT_FOUND, null, options);
+        res.notFound = function(data) {
+            _generateResponse(res, Status.NOT_FOUND, data, options);
         };
 
         /**
          * Request could not be processed (error in input).
          **/
-        res.unprocessableEntity = function(errors) {
-            _generateResponse(res, Status.UNPROCESSABLE_ENTITY, errors, options);
+        res.unprocessableEntity = function(data) {
+            _generateResponse(res, Status.UNPROCESSABLE_ENTITY, data, options);
         };
 
         /**
          * Internal Server Error.
          **/
-        res.internalServerError = function() {
-            _generateResponse(res, Status.INTERNAL_SERVER_ERROR, null, options);
+        res.internalServerError = function(data) {
+            _generateResponse(res, Status.INTERNAL_SERVER_ERROR, data, options);
         };
+
+        /**
+         * Generate a message with custom statusCode and data.
+         **/
+        res.api = function(statusCode, data, infoMessage, httpMessage) {
+            let responseObj = {};
+
+            if (options) {
+                if (options.showStatus)
+                    responseObj.status = statusCode;
+                if (options.showHttp)
+                    responseObj.http = httpMessage;
+                if (options.showInfo)
+                    responseObj.info = infoMessage;
+            }
+            responseObj.data = data;
+
+            res.status(statusCode).json(responseObj);
+        }
 
         // All attachments done -> continue to next middleware
         next();
@@ -87,17 +106,6 @@ module.exports = function(options) {
  * @param {JSON} data - to be in the response.
  **/
 function _generateResponse(res, statusCode, data, options) {
-    res.status(statusCode).json(_getDecoratedResponse(statusCode, data, options));
-}
-
-/**
- * Helper function to get a response that is decorated according
- * to the options.
- * 
- * @param {Number} statusCode - http status code to create response for.
- * @param {JSON} options - Options for the middleware.
- **/
-function _getDecoratedResponse(statusCode, data, options) {
     let response = {};
 
     if (options) {
@@ -110,6 +118,5 @@ function _getDecoratedResponse(statusCode, data, options) {
     }
 
     response.data = data;
-
-    return response;
+    res.status(statusCode).json(response);
 }

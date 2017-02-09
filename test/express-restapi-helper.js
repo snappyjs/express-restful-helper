@@ -23,7 +23,8 @@ const helpers = [
     'forbidden',
     'notFound',
     'unprocessableEntity',
-    'internalServerError'
+    'internalServerError',
+    'api'
 ];
 
 describe('Express-RestAPI-Helper', () => {
@@ -122,8 +123,41 @@ describe('Express-RestAPI-Helper', () => {
 
                 done();
             });
+    });
 
+    /**
+     * Display a custom API-response, using res.api.
+     */
+    it('Should show a custom api response.', done => {
+        let server = express();
+        let route = '/test/custom-api';
 
+        server.use(expressRestAPIHelper({
+            showHttp: true,
+            showInfo: true,
+            showStatus: true
+        }));
+
+        server.get(route, (err, res) => {
+            res.api(605, 'payload', 'InfoMessage', 'HttpMessage');
+        });
+
+        chai.request(server)
+            .get(route)
+            .end((err, res) => {
+                res.body.should.be.a('object');
+                res.body.should.have.property('http');
+                res.body.should.have.property('info');
+                res.body.should.have.property('status');
+                res.body.should.have.property('data');
+
+                res.body.http.should.eql('HttpMessage');
+                res.body.info.should.eql('InfoMessage');
+                res.body.status.should.eql(605);
+                res.body.data.should.eql('payload');
+
+                done();
+            });
     });
 
 
