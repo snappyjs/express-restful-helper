@@ -3,10 +3,12 @@
   "version": "0.0.3",
   "description": "Express middleware to attach some common responses to the response object as helper-methods.",
   "author": "Tommy Dronkers <dronkers86@gmail.com>",
-  "contributors": [{
-    "name": "Tommy Dronkers",
-    "email": "dronkers86@gmail.com"
-  }],
+  "contributors": [
+    {
+      "name": "Tommy Dronkers",
+      "email": "dronkers86@gmail.com"
+    }
+  ],
   "scripts": {
     "test": "mocha ./test"
   },
@@ -26,12 +28,12 @@
     "express API"
   ],
   "dependencies": {
-    "express": "^4.14.1"
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-http": "^3.0.0",
-    "mocha": "^3.2.0"
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.2.1"
   },
   "preferGlobal": false,
   "private": false,
